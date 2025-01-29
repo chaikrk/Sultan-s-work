@@ -1,4 +1,5 @@
 import logging
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from db import get_db_connection, close_connection
@@ -428,5 +429,6 @@ def signin():
             close_connection(connection)
 
 if __name__ == "__main__":
-    logging.info("Starting Flask server...")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Use Render’s assigned port or default to 5000
+    app.run(host="0.0.0.0", port=port)  # Ensure the app binds to 0.0.0.0
+
