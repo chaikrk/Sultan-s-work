@@ -1,0 +1,9 @@
+flask
+flask-cors
+mysql-connector-python
+python-dotenv
+langchain-core
+langchain-openai
+langchain-community
+streamlit
+google-api-python-client
