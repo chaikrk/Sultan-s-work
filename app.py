@@ -5,7 +5,7 @@ from flask_cors import CORS
 from db import get_db_connection, close_connection
 import mysql.connector
 import mysql.connector.pooling
-from flask import Flask, render_template
+from flask import Flask, send_from_directory
 
 
 logging.basicConfig(
@@ -24,7 +24,7 @@ def check_email(cursor, email):
 
 @app.route("/")
 def home():
-    return render_template("index.html")  # Serve index.html
+    return send_from_directory("static", "index.html")  # Serve index.html from static/
 
 
 ###############################################################################
