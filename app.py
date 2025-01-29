@@ -5,6 +5,8 @@ from flask_cors import CORS
 from db import get_db_connection, close_connection
 import mysql.connector
 import mysql.connector.pooling
+from flask import Flask, render_template
+
 
 logging.basicConfig(
     filename="app.log",
@@ -22,8 +24,8 @@ def check_email(cursor, email):
 
 @app.route("/")
 def home():
-    logging.info("Home route accessed")
-    return "Welcome to the Career Guide API!"
+    return render_template("index.html")  # Serve index.html
+
 
 ###############################################################################
 #                            GET ROUTES (LOAD DATA)                           #
