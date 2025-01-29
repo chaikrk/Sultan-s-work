@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Guide Chat - Career Guide AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+    --gradient-start: #E2E8F0;
+    --gradient-end: #F8FAFC;
+    --accent-1: #60A5FA;
+    --accent-2: #3B82F6;
+    --border-dark: #000000;
+    --text-color: #1F2937;
+    --bg-color: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--text-color);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid var(--border-dark);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0px var(--border-dark);
+}
+
+.btn {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    padding: 12px 24px;
+    border: 2px solid var(--border-dark);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: var(--accent-2);
+    color: var(--bg-color);
+}
+
+.btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-dark);
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.chat-page {
+    padding: 60px 0;
+}
+
+.chat-interface {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.chat-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.chat-header h1 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.message {
+    max-width: 80%;
+}
+
+.message.bot {
+    align-self: flex-start;
+}
+
+.message.user {
+    align-self: flex-end;
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.message.bot .message-content {
+    background-color: var(--accent-1);
+    color: var(--bg-color);
+}
+
+.message.user .message-content {
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-dark);
+}
+
+.chat-input {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.chat-input input {
+    flex-grow: 1;
+    padding: 12px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    border: 2px solid var(--border-dark);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+}
+
+.menu-container {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    transform: scale(1.2);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.dropdown-menu {
+    display: none;
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-dark);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 150px;
+    transform-origin: top right;
+    animation: scaleIn 0.2s ease;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item svg {
+    width: 14px;
+    height: 14px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+    .chat-interface {
+        padding: 20px;
+    }
+}
+    </style>
+</head>
+<body class="chat-page">
+    <main class="chat-page">
+        <div class="container">
+            <div class="chat-interface glass">
+                <div class="chat-header">
+                    <div class="logo animate-float">
+                        <img src="ship-logo.png" alt="Ship Logo" class="logo-image">
+                    </div>
+                    <h1>Career Guide Chat</h1>
+                    <div class="menu-container">
+                        <div class="dropdown">
+                            <button class="dropdown-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                  <circle cx="2" cy="8" r="2"/>
+                                  <circle cx="8" cy="8" r="2"/>
+                                  <circle cx="14" cy="8" r="2"/>
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="index.html" class="dropdown-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                                    </svg>
+                                    Sign Out
+                                </a>
+                                <a href="portfolio.html" class="dropdown-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+                                    </svg>
+                                    Portfolio
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="chat-messages" class="chat-messages">
+                    <div class="message bot">
+                        <div class="message-content">Hello! How can I assist you with your career today?</div>
+                    </div>
+                </div>
+                
+                <form id="chat-form" class="chat-input">
+                    <input type="text" id="user-input" placeholder="Type your message..." required>
+                    <button type="submit" class="btn">
+                        Send
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
