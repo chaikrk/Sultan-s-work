@@ -24,8 +24,7 @@ def check_email(cursor, email):
 
 @app.route("/")
 def home():
-    return send_from_directory("static", "index.html")  # Serve index.html from static/
-
+    return render_template("portfolio.html")  # Serve from templates/
 
 ###############################################################################
 #                            GET ROUTES (LOAD DATA)                           #
