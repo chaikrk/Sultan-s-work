@@ -470,4 +470,6 @@ def chat():
     except Exception as e:
         logging.error(f"Error rendering chat.html: {e}")
         return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
-
+@app.route("/portfolio", methods=["GET"])
+def portfolio():
+    return render_template("portfolio.html")
