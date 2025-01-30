@@ -6,7 +6,8 @@ from flask import (
     jsonify,
     render_template,
     send_from_directory,
-    url_for
+    url_for,
+jsonify
 )
 from flask_cors import CORS
 from db import get_db_connection, close_connection
@@ -464,6 +465,9 @@ if __name__ == "__main__":
 #--------------------------------------------------------------------------
 @app.route("/chat", methods=["GET"])
 def chat():
-    return render_template("chat.html")
-
+    try:
+        return render_template("chat.html")
+    except Exception as e:
+        logging.error(f"Error rendering chat.html: {e}")
+        return jsonify({"error": "Internal Server Error", "details": str(e)}), 500
 
