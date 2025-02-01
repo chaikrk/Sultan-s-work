@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     alert("Signup successful!");
                     console.log("Signup response:", data);
-                    window.location.href = "/signin"; // Redirect to signin page
+                    window.location.href = "/portfolio"; // Redirect to signin page
                 } else {
                     alert("Signup failed: " + (data.error || "Unknown error"));
                     console.error("Signup error:", data);
