@@ -22,6 +22,7 @@ logging.basicConfig(
 )
 
 app = Flask(__name__)
+app.config["DEBUG"] = True
 CORS(app)
 
 # ------------------------------------------------------------------------
