@@ -1,8 +1,6 @@
-// static/script.js
-
 document.addEventListener("DOMContentLoaded", () => {
     console.log("JavaScript loaded successfully!");
-  
+
     /***********************************************************************
      * SIGNUP FORM
      ***********************************************************************/
@@ -19,13 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Split full name into first and last name
             let [fname, ...lnameParts] = fullName.split(" ");
-            let lname = lnameParts.join(" "); // Join the remaining parts as the last name
-
-            // If the user only entered one name, assign "N/A" as lname
-            if (!lname) lname = "N/A";
+            let lname = lnameParts.join(" ") || "N/A";  // If lname is empty, set it to "N/A"
 
             // Simple client-side validation
-            if (!email || !fname || !lname || !password || !confirmPassword) {
+            if (!email || !fname || !password || !confirmPassword) {
                 alert("Please fill all fields.");
                 return;
             }
@@ -48,7 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     alert("Signup successful!");
                     console.log("Signup response:", data);
-                    window.location.href = "/portfolio"; // Redirect to signin page
+                    localStorage.setItem("email", email);  // Store email for portfolio
+                    window.location.href = "/portfolio";  // Redirect to portfolio
                 } else {
                     alert("Signup failed: " + (data.error || "Unknown error"));
                     console.error("Signup error:", data);
@@ -59,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-  
+
     /***********************************************************************
      * SIGNIN FORM
      ***********************************************************************/
@@ -68,18 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
         signinForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Grab field values
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
-            // Basic checks
             if (!email || !password) {
                 alert("Please fill all fields.");
                 return;
             }
 
             try {
-                // POST to your Flask "/signin" route
                 const response = await fetch("/signin", {
                     method: "POST",
                     headers: {
@@ -92,7 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     alert("Sign in successful!");
                     console.log("Sign in response:", data);
-                    window.location.href = "/chat"; // Redirect to chat.html
+                    localStorage.setItem("email", email);  // Store email for portfolio
+                    window.location.href = "/chat";  // Redirect to chat
                 } else {
                     alert("Sign in failed: " + (data.error || "Unknown error"));
                     console.error("Sign in error:", data);
@@ -103,11 +97,132 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-  
-    // -----------------------------------------------------------------------
-    // If you have more forms (like adding skills, education, etc.),
-    // do the same pattern: check if the form exists, attach the event,
-    // then do `fetch("/profile/add-skill", {...})`, etc.
-    // -----------------------------------------------------------------------
-  });
-  
+
+    /***********************************************************************
+     * PORTFOLIO FORM HANDLING
+     ***********************************************************************/
+    const sections = ["education", "experience", "certification", "skill"];
+    sections.forEach((section) => {
+        const form = document.getElementById(`${section}-form`);
+        if (form) {
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                await handleSubmit(section, `/profile/add-${section}`);
+            });
+        }
+    });
+
+    async function handleSubmit(section, endpoint) {
+        const email = localStorage.getItem("email");
+        if (!email) {
+            alert("User not found. Please log in again.");
+            return;
+        }
+
+        const formData = new FormData(document.getElementById(`${section}-form`));
+        const data = Object.fromEntries(formData.entries());
+        data.email = email;
+
+        if (Object.values(data).some(value => !value.trim())) {
+            alert("All fields are required.");
+            return;
+        }
+
+        try {
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(`${section} added successfully!`);
+                loadData(section);
+            } else {
+                alert(`Failed to add ${section}: ${result.error}`);
+            }
+        } catch (error) {
+            console.error(`Error adding ${section}:`, error);
+            alert(`Failed to add ${section}.`);
+        }
+    }
+
+    async function loadData(section) {
+        const email = localStorage.getItem("email");
+        if (!email) {
+            console.error("No email found in localStorage.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`/profile/get-${section}?email=${email}`);
+            if (!response.ok) throw new Error(`Failed to fetch ${section} entries.`);
+
+            const entries = await response.json();
+            const list = document.getElementById(`${section}-list`);
+            list.innerHTML = "";
+
+            entries.forEach((entry) => {
+                const item = document.createElement("div");
+                item.className = "added-item";
+                item.innerHTML = `
+                    ${Object.entries(entry)
+                        .map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`)
+                        .join("")}
+                    <button onclick="deleteItem('${section}', ${entry.id})">Delete</button>
+                `;
+                list.appendChild(item);
+            });
+        } catch (error) {
+            console.error(`Error loading ${section} entries:`, error);
+        }
+    }
+
+    async function deleteItem(section, id) {
+        try {
+            const response = await fetch(`/profile/delete-${section}?id=${id}`, {
+                method: "DELETE",
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(`${section} deleted successfully!`);
+                loadData(section);
+            } else {
+                alert(`Failed to delete ${section}: ${result.error}`);
+            }
+        } catch (error) {
+            console.error(`Error deleting ${section}:`, error);
+            alert(`Failed to delete ${section}.`);
+        }
+    }
+
+    // Load data for all portfolio sections on page load
+    sections.forEach(loadData);
+
+    /***********************************************************************
+     * NAVIGATION HANDLING
+     ***********************************************************************/
+    const chatButton = document.getElementById("continue-chat");
+    if (chatButton) {
+        chatButton.addEventListener("click", () => {
+            window.location.href = "/chat";
+        });
+    }
+
+    const buttons = document.querySelectorAll(".nav-button");
+    const contentSections = document.querySelectorAll(".form-section");
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const target = button.dataset.target;
+            contentSections.forEach((section) => section.classList.remove("active"));
+            document.getElementById(target).classList.add("active");
+            buttons.forEach((btn) => btn.classList.remove("active"));
+            button.classList.add("active");
+        });
+    });
+});
