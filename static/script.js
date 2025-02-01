@@ -13,8 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
         // Grab the field values
         const email = document.getElementById("email").value;
-        //const fname = document.getElementById("fname").value;
-        const fname ='KSU';
+        const fname = document.getElementById("fname").value;
         const lname = document.getElementById("lname").value;
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
