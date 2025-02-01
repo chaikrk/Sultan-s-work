@@ -36,7 +36,7 @@ def check_email(cursor, email):
 @app.route("/")
 def home():
     # Renders templates/index.html
-    return render_template("index.html")
+    return render_template("index.html", time=time)
 
 # ------------------------------------------------------------------------
 # Sign In (GET + POST)
