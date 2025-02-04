@@ -214,27 +214,26 @@ def get_certification():
         cursor.close()
         close_connection(connection)
 
+#-------------------------------------------------------------------------
 @app.route("/profile/get-skill", methods=["GET"])
 def get_skill():
-     email = request.args.get("email")
-    if not email:
+    email = request.args.get("email")
+    if not email:  # <-- Make sure this is aligned correctly
         return jsonify({"error": "Missing email"}), 400
 
     connection = get_db_connection()
     if not connection:
         return jsonify({"error": "Database connection failed"}), 500
 
-    cursor = None  # Initialize cursor before using it
+    cursor = None  # Ensure cursor is defined before using it
 
     try:
         cursor = connection.cursor(dictionary=True)
 
-        # Check if email exists
         cursor.execute("SELECT email FROM User_portfolio WHERE email = %s", (email,))
         if not cursor.fetchone():
             return jsonify({"error": "Email not found"}), 404
 
-        # Fetch user skills
         query = """
             SELECT s.skill_id AS id, s.name, s.category, s.level
             FROM skill s
@@ -250,9 +249,10 @@ def get_skill():
         return jsonify({"error": str(e)}), 500
 
     finally:
-        if cursor:  # Close cursor only if it was initialized
+        if cursor:
             cursor.close()
         close_connection(connection)
+#-------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------
 # Profile ADD routes (POST)
