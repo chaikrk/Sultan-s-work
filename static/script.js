@@ -199,7 +199,29 @@ document.addEventListener("DOMContentLoaded", () => {
             alert(`Failed to delete ${section}.`);
         }
     }
-
+ // ---------------------------------------------------------------------
+    async function fetchUserPortfolio() {
+        const email = localStorage.getItem("email");  // Retrieve stored email
+        if (!email) {
+            console.error("User email not found in localStorage.");
+            return;
+        }
+    
+        try {
+            const response = await fetch(`/profile/get-user-portfolio?email=${encodeURIComponent(email)}`);
+            const data = await response.json();
+    
+            if (response.ok) {
+                console.log("User portfolio retrieved:", data);
+                displayUserPortfolio(data);  // Call function to update UI
+            } else {
+                console.warn("User portfolio not found:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching user portfolio:", error);
+        }
+    }
+    // ------------------------------------------------------------------
     // Load data for all portfolio sections on page load
     sections.forEach(loadData);
 
