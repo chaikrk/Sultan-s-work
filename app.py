@@ -475,3 +475,92 @@ def chat():
 @app.route("/portfolio", methods=["GET"])
 def portfolio():
     return render_template("portfolio.html")
+    #--------------------------------------------------------------------------
+@app.route("/profile/get-user-portfolio", methods=["GET"])
+def get_user_portfolio_api():
+    email = request.args.get("email")  # Get email from query parameter
+    if not email:
+        return jsonify({"error": "Missing email"}), 400
+
+    user_portfolio = get_user_portfolio(email)
+    
+    if user_portfolio:
+        return jsonify(user_portfolio), 200
+    else:
+        return jsonify({"error": "No data found for this user"}), 404
+
+def get_user_portfolio(email):
+    """
+    Retrieves user portfolio information (education, experience, certifications, and skills) 
+    from the database using their email.
+    
+    Args:
+        email (str): The user's email.
+    
+    Returns:
+        dict: A dictionary containing the user's profile data, or None if user has no data.
+    """
+    connection = None
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        # Query user education
+        cursor.execute("""
+            SELECT e.degree_name, e.major, e.university_name, e.country
+            FROM education e
+            JOIN portfolio_has_education pe ON e.degree_id = pe.education_degree_id
+            WHERE pe.portfolio_email = %s
+        """, (email,))
+        education = cursor.fetchall()
+
+        # Query user experience
+        cursor.execute("""
+            SELECT w.company_name, w.position, w.start_date, w.end_date, w.description
+            FROM WorkExperience w
+            JOIN WorkExperience_has_User_portfolio we 
+                ON w.experience_id = we.WorkExperience_experience_id
+            WHERE we.User_portfolio_email = %s
+        """, (email,))
+        experience = cursor.fetchall()
+
+        # Query user certifications
+        cursor.execute("""
+            SELECT p.name, p.provider, p.course_link, p.duration_hours
+            FROM Previous_Certification p
+            JOIN Previous_Certification_has_User_portfolio pu 
+                ON p.Previous_Certification_id = pu.Previous_Certification_id
+            WHERE pu.User_portfolio_email = %s
+        """, (email,))
+        certifications = cursor.fetchall()
+
+        # Query user skills
+        cursor.execute("""
+            SELECT s.name AS skill_name, s.category, s.level
+            FROM skill s
+            JOIN portfolio_has_skill ps ON s.skill_id = ps.skill_skill_id
+            WHERE ps.portfolio_email = %s
+        """, (email,))
+        skills = cursor.fetchall()
+
+        # Store everything in a structured dictionary
+        user_portfolio = {
+            "education": education if education else [],
+            "experience": experience if experience else [],
+            "certifications": certifications if certifications else [],
+            "skills": skills if skills else []
+        }
+
+        # If user has no data, return None
+        if not any(user_portfolio.values()):
+            return None
+
+        return user_portfolio
+
+    except Exception as e:
+        logging.error(f"Error retrieving user portfolio for {email}: {e}")
+        return None
+    finally:
+        if connection:
+            close_connection(connection)
+
