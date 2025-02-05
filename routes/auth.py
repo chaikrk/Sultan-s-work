@@ -48,16 +48,23 @@ def signin():
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
 
-        # Retrieve user from database
+        # Retrieve user data
         cursor.execute("SELECT * FROM User_portfolio WHERE email=%s", (email,))
         user = cursor.fetchone()
 
-        if user and bcrypt.checkpw(password.encode("utf-8"), user["Password"].encode("utf-8")):
-            logging.info(f"User logged in successfully: {email}")
-            return jsonify({"message": "Login successful!"}), 200
-        else:
-            logging.warning(f"Failed login attempt for: {email}")
-            return jsonify({"error": "Invalid credentials"}), 401
+        if user:
+            # Ensure password is a string before comparing
+            stored_hashed_password = user["Password"]
+            if isinstance(stored_hashed_password, bytes):  # Convert bytes to string if necessary
+                stored_hashed_password = stored_hashed_password.decode("utf-8")
+
+            # Compare hashed password with entered password
+            if bcrypt.checkpw(password.encode("utf-8"), stored_hashed_password.encode("utf-8")):
+                logging.info(f"User logged in successfully: {email}")
+                return jsonify({"message": "Login successful!"}), 200
+
+        logging.warning(f"Failed login attempt for: {email}")
+        return jsonify({"error": "Invalid credentials"}), 401
     except Exception as e:
         logging.error(f"Error during signin: {e}")
         return jsonify({"error": str(e)}), 400
