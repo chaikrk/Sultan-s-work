@@ -1,4 +1,9 @@
 async function loadData(section) {
+    const list = document.getElementById(`${section}-list`);
+    // If we're not on the portfolio page, `list` will be null
+    if (!list) {
+        return; // Just skip the rest if the element doesn't exist
+    }
     const email = localStorage.getItem("email");
     if (!email) {
         console.error("No email found in localStorage.");
