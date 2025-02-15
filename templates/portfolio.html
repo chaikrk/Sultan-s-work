@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- jQuery (Required for Select2) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Select2 CSS & JS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+  <title>Create Your Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="portfolio-page">
+  <div class="container">
+    <div class="logo animate-float">
+      <img src="{{ url_for('static', filename='ship-logo.png') }}" alt="Ship Logo" class="logo-image">
+    </div>
+    <h1>Create Your Profile</h1>
+    
+    <div class="nav-buttons">
+      <button class="nav-button active" data-target="education">Education</button>
+      <button class="nav-button" data-target="experience">Experience</button>
+      <button class="nav-button" data-target="certification">Certification</button>
+      <button class="nav-button" data-target="skill">Skill</button>
+    </div>
+
+    <div id="education" class="form-section active">
+      <h2>Education</h2>
+      <div id="education-list"></div>
+      <form id="education-form">
+        <!-- Updated dropdown for Degree Name -->
+        <div class="form-group">
+          <label for="degree">Degree Name:</label>
+          <select id="degree_search" name="degree" style="width: 100%;">
+            <option value="">Select a Degree</option>
+            <option value="bachelor">Bachelor (BA)</option>
+            <option value="master">Master (MSW)</option>
+            <option value="Doctor">Doctor (PhD)</option>
+            <!-- Associate Degrees -->
+            <option value="associate_of_arts">Associate of Arts (AA)</option>
+            <option value="associate_of_science">Associate of Science (AS)</option>
+            <option value="associate_of_applied_science">Associate of Applied Science (AAS)</option>
+            <option value="associate_of_business_administration">Associate of Business Administration (ABA)</option>
+            <!-- Bachelor's Degrees -->
+            <option value="bachelor_of_arts">Bachelor of Arts (BA)</option>
+            <option value="bachelor_of_science">Bachelor of Science (BS)</option>
+            <option value="bachelor_of_business_administration">Bachelor of Business Administration (BBA)</option>
+            <option value="bachelor_of_fine_arts">Bachelor of Fine Arts (BFA)</option>
+            <option value="bachelor_of_engineering">Bachelor of Engineering (BE/BEng)</option>
+            <option value="bachelor_of_architecture">Bachelor of Architecture (BArch)</option>
+            <option value="bachelor_of_education">Bachelor of Education (BEd)</option>
+            <option value="bachelor_of_nursing">Bachelor of Nursing (BN/BScN)</option>
+            <option value="bachelor_of_pharmacy">Bachelor of Pharmacy (BPharm)</option>
+            <option value="bachelor_of_medicine_surgery">Bachelor of Medicine, Bachelor of Surgery (MBBS)</option>
+            <option value="bachelor_of_laws">Bachelor of Laws (LLB)</option>
+            <option value="bachelor_of_social_work">Bachelor of Social Work (BSW)</option>
+            <option value="bachelor_of_computer_science">Bachelor of Computer Science (BCS)</option>
+            <option value="bachelor_of_information_technology">Bachelor of Information Technology (BIT)</option>
+            <!-- Master's Degrees -->
+            <option value="master_of_arts">Master of Arts (MA)</option>
+            <option value="master_of_science">Master of Science (MS/MSc)</option>
+            <option value="master_of_business_administration">Master of Business Administration (MBA)</option>
+            <option value="master_of_fine_arts">Master of Fine Arts (MFA)</option>
+            <option value="master_of_engineering">Master of Engineering (ME/MEng)</option>
+            <option value="master_of_architecture">Master of Architecture (MArch)</option>
+            <option value="master_of_education">Master of Education (MEd)</option>
+            <option value="master_of_public_health">Master of Public Health (MPH)</option>
+            <option value="master_of_laws">Master of Laws (LLM)</option>
+            <option value="master_of_social_work">Master of Social Work (MSW)</option>
+            <option value="master_of_computer_science">Master of Computer Science (MCS)</option>
+            <option value="master_of_information_technology">Master of Information Technology (MIT)</option>
+            <option value="master_of_pharmacy">Master of Pharmacy (MPharm)</option>
+            <option value="master_of_health_administration">Master of Health Administration (MHA)</option>
+            <option value="master_of_philosophy">Master of Philosophy (MPhil)</option>
+            <!-- Doctoral Degrees -->
+            <option value="doctor_of_philosophy">Doctor of Philosophy (PhD)</option>
+            <option value="doctor_of_medicine">Doctor of Medicine (MD)</option>
+            <option value="doctor_of_dental_medicine">Doctor of Dental Medicine (DMD)</option>
+            <option value="doctor_of_dental_surgery">Doctor of Dental Surgery (DDS)</option>
+            <option value="doctor_of_pharmacy">Doctor of Pharmacy (PharmD)</option>
+            <option value="doctor_of_education">Doctor of Education (EdD)</option>
+            <option value="doctor_of_laws">Doctor of Laws (LLD)</option>
+            <option value="doctor_of_public_health">Doctor of Public Health (DrPH)</option>
+            <option value="doctor_of_business_administration">Doctor of Business Administration (DBA)</option>
+            <option value="doctor_of_social_work">Doctor of Social Work (DSW)</option>
+            <option value="doctor_of_health_administration">Doctor of Health Administration (DHA)</option>
+          </select>
+        </div>
+
+        <!-- Updated dropdown for Major -->
+        <div class="form-group">
+          <label for="major">Major:</label>
+          <select id="major_search" name="major" style="width: 100%;">
+            <option value="">Select a Major</option>
+            <!-- Arts & Humanities -->
+            <option value="anthropology">Anthropology</option>
+            <option value="archaeology">Archaeology</option>
+            <option value="art_history">Art History</option>
+            <option value="communications">Communications</option>
+            <option value="english_literature">English Literature</option>
+            <option value="fine_arts">Fine Arts</option>
+            <option value="history">History</option>
+             <option value="languages_linguistics">Languages & Linguistics</option>
+             <option value="music">Music</option>
+             <option value="philosophy">Philosophy</option>
+               <option value="theater_film_studies">Theater & Film Studies</option>
+                <!-- Business & Management -->
+                <option value="accounting">Accounting</option>
+                <option value="business_administration">Business Administration</option>
+                <option value="economics">Economics</option>
+                <option value="entrepreneurship">Entrepreneurship</option>
+                <option value="finance">Finance</option>
+                <option value="human_resource_management">Human Resource Management</option>
+                <option value="international_business">International Business</option>
+                <option value="management">Management</option>
+                <option value="marketing">Marketing</option>
+                <option value="supply_chain_management">Supply Chain Management</option>
+              
+                <!-- Computer Science & IT -->
+                <option value="artificial_intelligence">Artificial Intelligence</option>
+                <option value="computer_engineering">Computer Engineering</option>
+                <option value="computer_science">Computer Science</option>
+                <option value="cybersecurity">Cybersecurity</option>
+                <option value="data_science">Data Science</option>
+                <option value="game_design">Game Design</option>
+                <option value="information_technology">Information Technology</option>
+                <option value="software_engineering">Software Engineering</option>
+                <option value="web_development">Web Development</option>
+              
+                <!-- Engineering -->
+                <option value="aerospace_engineering">Aerospace Engineering</option>
+                <option value="biomedical_engineering">Biomedical Engineering</option>
+                <option value="chemical_engineering">Chemical Engineering</option>
+                <option value="civil_engineering">Civil Engineering</option>
+                <option value="electrical_engineering">Electrical Engineering</option>
+                <option value="environmental_engineering">Environmental Engineering</option>
+                <option value="industrial_engineering">Industrial Engineering</option>
+                <option value="mechanical_engineering">Mechanical Engineering</option>
+                <option value="robotics">Robotics</option>
+              
+                <!-- Health & Medicine -->
+                <option value="dentistry">Dentistry</option>
+                <option value="healthcare_management">Healthcare Management</option>
+                <option value="medical_laboratory_science">Medical Laboratory Science</option>
+                <option value="medicine">Medicine</option>
+                <option value="nursing">Nursing</option>
+                <option value="nutrition_dietetics">Nutrition & Dietetics</option>
+                <option value="occupational_therapy">Occupational Therapy</option>
+                <option value="pharmacy">Pharmacy</option>
+                <option value="physical_therapy">Physical Therapy</option>
+                <option value="public_health">Public Health</option>
+                <option value="veterinary_medicine">Veterinary Medicine</option>
+              
+                <!-- Law & Political Science -->
+                <option value="criminal_justice">Criminal Justice</option>
+                <option value="international_relations">International Relations</option>
+                <option value="law">Law</option>
+                <option value="political_science">Political Science</option>
+                <option value="public_policy">Public Policy</option>
+              
+                <!-- Natural Sciences -->
+                <option value="astronomy">Astronomy</option>
+                <option value="biochemistry">Biochemistry</option>
+                <option value="biology">Biology</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="earth_sciences">Earth Sciences</option>
+                <option value="environmental_science">Environmental Science</option>
+                <option value="forensic_science">Forensic Science</option>
+                <option value="genetics">Genetics</option>
+                <option value="geology">Geology</option>
+                <option value="marine_biology">Marine Biology</option>
+                <option value="mathematics">Mathematics</option>
+                <option value="microbiology">Microbiology</option>
+                <option value="physics">Physics</option>
+                <option value="statistics">Statistics</option>
+                <option value="zoology">Zoology</option>
+              
+                <!-- Social Sciences & Education -->
+                <option value="counseling">Counseling</option>
+                <option value="education">Education</option>
+                <option value="psychology">Psychology</option>
+                <option value="sociology">Sociology</option>
+                <option value="social_work">Social Work</option>
+              
+                <!-- Trades & Technical Studies -->
+                <option value="automotive_technology">Automotive Technology</option>
+                <option value="construction_management">Construction Management</option>
+                <option value="electrical_technician">Electrical Technician</option>
+                <option value="hvac_technician">HVAC Technician</option>
+                <option value="plumbing">Plumbing</option>
+                <option value="welding">Welding</option>
+            <!-- Add additional majors as needed -->
+          </select>
+        </div>
+
+        <!-- Updated dropdown for University -->
+        <div class="form-group">
+          <label for="university">University Name:</label>
+          <select id="university_search" name="universities" style="width: 100%;">
+            <option value="">Select a University</option>
+            <option value="alfaisal_university">Alfaisal University</option>
+            <option value="al_baha_university">Al Baha University</option>
+            <option value="al_jouf_university">Al Jouf University</option>
+            <option value="al_yamamah_university">Al Yamamah University</option>
+            <option value="arab_open_university">Arab Open University</option>
+            <option value="aston_university">Aston University</option>
+            <option value="barts_and_the_london_school_of_medicine">Barts and The London School of Medicine and Dentistry</option>
+            <option value="batterjee_medical_college">Batterjee Medical College</option>
+            <option value="boston_university">Boston University</option>
+            <option value="brunel_university">Brunel University</option>
+            <option value="brown_university">Brown University</option>
+            <option value="carnegie_mellon_university">Carnegie Mellon University</option>
+            <option value="cardiff_university">Cardiff University</option>
+            <option value="caltech">California Institute of Technology (Caltech)</option>
+            <option value="city_university_of_london">City, University of London</option>
+            <option value="college_of_business_administration_cba">College of Business Administration (CBA)</option>
+            <option value="columbia_university">Columbia University</option>
+            <option value="cornell_university">Cornell University</option>
+            <option value="cranfield_university">Cranfield University</option>
+            <option value="dar_al_hikma_university">Dar Al-Hekma University</option>
+            <option value="dar_aluloom_university">Dar Al-Uloom University</option>
+            <option value="dartmouth_college">Dartmouth College</option>
+            <option value="durham_university">Durham University</option>
+            <option value="duke_university">Duke University</option>
+            <option value="effat_university">Effat University</option>
+            <option value="emory_university">Emory University</option>
+            <option value="fahd_bin_sultan_university">Fahd Bin Sultan University</option>
+            <option value="future_university">Future University</option>
+            <option value="georgia_tech">Georgia Institute of Technology</option>
+            <option value="goldsmiths_university">Goldsmiths, University of London</option>
+            <option value="harvard_business_school">Harvard Business School</option>
+            <option value="harvard_medical_school">Harvard Medical School</option>
+            <option value="harvard_university">Harvard University</option>
+            <option value="imperial_business_school">Imperial College Business School</option>
+            <option value="imperial_college_london">Imperial College London</option>
+            <option value="indiana_university">Indiana University</option>
+            <option value="islamic_university_of_madinah">Islamic University of Madinah</option>
+            <option value="jazan_university">Jazan University</option>
+            <option value="jeddah_international_college">Jeddah International College</option>
+            <option value="johns_hopkins_medical">Johns Hopkins School of Medicine</option>
+            <option value="johns_hopkins_university">Johns Hopkins University</option>
+            <option value="judge_business_school">Judge Business School (Cambridge)</option>
+            <option value="king_abdullah_university_of_science_and_technology">King Abdullah University of Science and Technology</option>
+            <option value="king_abdulaziz_university">King Abdulaziz University</option>
+            <option value="king_faisal_university">King Faisal University</option>
+            <option value="king_fahd_university_of_petroleum_and_minerals">King Fahd University of Petroleum and Minerals</option>
+            <option value="king_khalid_university">King Khalid University</option>
+            <option value="king_saud_bin_abdulaziz_university_for_health_sciences">King Saud bin Abdulaziz University for Health Sciences</option>
+            <option value="king_saud_university">King Saud University</option>
+            <option value="king's_college_london">King’s College London (KCL)</option>
+            <option value="london_school_of_economics">London School of Economics (LSE)</option>
+            <option value="mit">Massachusetts Institute of Technology (MIT)</option>
+            <option value="majmaah_university">Majmaah University</option>
+            <option value="northwestern_university">Northwestern University</option>
+            <option value="ohio_state_university">Ohio State University</option>
+            <option value="pennsylvania_state_university">Pennsylvania State University</option>
+            <option value="princeton_university">Princeton University</option>
+            <option value="queen_mary_university_of_london">Queen Mary University of London</option>
+            <option value="rice_university">Rice University</option>
+            <option value="royal_holloway">Royal Holloway, University of London</option>
+            <option value="shaqra_university">Shaqra University</option>
+            <option value="soas_university_of_london">SOAS University of London</option>
+            <option value="stanford_gsb">Stanford Graduate School of Business</option>
+            <option value="stanford_medical_school">Stanford University School of Medicine</option>
+            <option value="stanford_university">Stanford University</option>
+            <option value="st_george's_university_of_london">St George’s, University of London</option>
+            <option value="ucla">University of California, Los Angeles (UCLA)</option>
+            <option value="university_of_cambridge">University of Cambridge</option>
+            <option value="university_of_manchester">University of Manchester</option>
+            <option value="university_of_oxford">University of Oxford</option>
+            <option value="university_of_texas_austin">University of Texas at Austin</option>
+            <option value="warwick_business_school">Warwick Business School</option>
+            <option value="yale_university">Yale University</option>
+            <!-- Add additional universities as needed -->
+          </select>
+        </div>
+
+        <!-- Updated dropdown for Country -->
+        <div class="form-group">
+          <label for="country">Country:</label>
+          <select id="country_search" name="country" style="width: 100%;">
+            <option value="">Select a Country</option>
+            <option value="saudi_arabia">Saudi Arabia</option>
+            <option value="afghanistan">Afghanistan</option>
+            <option value="albania">Albania</option>
+            <option value="algeria">Algeria</option>
+            <option value="andorra">Andorra</option>
+            <option value="angola">Angola</option>
+            <option value="antigua_and_barbuda">Antigua and Barbuda</option>
+            <option value="argentina">Argentina</option>
+            <option value="armenia">Armenia</option>
+            <option value="australia">Australia</option>
+            <option value="austria">Austria</option>
+            <option value="azerbaijan">Azerbaijan</option>
+            <option value="bahamas">Bahamas</option>
+            <option value="bahrain">Bahrain</option>
+            <option value="bangladesh">Bangladesh</option>
+            <option value="barbados">Barbados</option>
+            <option value="belarus">Belarus</option>
+            <option value="belgium">Belgium</option>
+            <option value="belize">Belize</option>
+            <option value="benin">Benin</option>
+            <option value="bhutan">Bhutan</option>
+            <option value="bolivia">Bolivia</option>
+            <option value="bosnia_and_herzegovina">Bosnia and Herzegovina</option>
+            <option value="botswana">Botswana</option>
+            <option value="brazil">Brazil</option>
+            <option value="brunei">Brunei</option>
+            <option value="bulgaria">Bulgaria</option>
+            <option value="burkina_faso">Burkina Faso</option>
+            <option value="burundi">Burundi</option>
+            <option value="cabo_verde">Cabo Verde</option>
+            <option value="cambodia">Cambodia</option>
+            <option value="cameroon">Cameroon</option>
+            <option value="canada">Canada</option>
+            <option value="central_african_republic">Central African Republic</option>
+            <option value="chad">Chad</option>
+            <option value="chile">Chile</option>
+            <option value="china">China</option>
+            <option value="colombia">Colombia</option>
+            <option value="comoros">Comoros</option>
+            <option value="congo">Congo</option>
+            <option value="costa_rica">Costa Rica</option>
+            <option value="croatia">Croatia</option>
+            <option value="cuba">Cuba</option>
+            <option value="cyprus">Cyprus</option>
+            <option value="czech_republic">Czech Republic</option>
+            <option value="denmark">Denmark</option>
+            <option value="djibouti">Djibouti</option>
+            <option value="dominica">Dominica</option>
+            <option value="dominican_republic">Dominican Republic</option>
+            <option value="ecuador">Ecuador</option>
+            <option value="egypt">Egypt</option>
+            <option value="el_salvador">El Salvador</option>
+            <option value="equatorial_guinea">Equatorial Guinea</option>
+            <option value="eritrea">Eritrea</option>
+            <option value="estonia">Estonia</option>
+            <option value="eswatini">Eswatini</option>
+            <option value="ethiopia">Ethiopia</option>
+            <option value="fiji">Fiji</option>
+            <option value="finland">Finland</option>
+            <option value="france">France</option>
+            <option value="gabon">Gabon</option>
+            <option value="gambia">Gambia</option>
+            <option value="georgia">Georgia</option>
+            <option value="germany">Germany</option>
+            <option value="ghana">Ghana</option>
+            <option value="greece">Greece</option>
+            <option value="grenada">Grenada</option>
+            <option value="guatemala">Guatemala</option>
+            <option value="guinea">Guinea</option>
+            <option value="guinea_bissau">Guinea-Bissau</option>
+            <option value="guyana">Guyana</option>
+            <option value="haiti">Haiti</option>
+            <option value="honduras">Honduras</option>
+            <option value="hungary">Hungary</option>
+            <option value="iceland">Iceland</option>
+            <option value="india">India</option>
+            <option value="indonesia">Indonesia</option>
+            <option value="iran">Iran</option>
+            <option value="iraq">Iraq</option>
+            <option value="ireland">Ireland</option>
+            <option value="israel">Israel</option>
+            <option value="italy">Italy</option>
+            <option value="ivory_coast">Ivory Coast</option>
+            <option value="jamaica">Jamaica</option>
+            <option value="japan">Japan</option>
+            <option value="jordan">Jordan</option>
+            <option value="kazakhstan">Kazakhstan</option>
+            <option value="kenya">Kenya</option>
+            <option value="kuwait">Kuwait</option>
+            <option value="kyrgyzstan">Kyrgyzstan</option>
+            <option value="laos">Laos</option>
+            <option value="latvia">Latvia</option>
+            <option value="lebanon">Lebanon</option>
+            <option value="liberia">Liberia</option>
+            <option value="libya">Libya</option>
+            <option value="lithuania">Lithuania</option>
+            <option value="luxembourg">Luxembourg</option>
+            <option value="madagascar">Madagascar</option>
+            <option value="malawi">Malawi</option>
+            <option value="malaysia">Malaysia</option>
+            <option value="maldives">Maldives</option>
+            <option value="mali">Mali</option>
+            <option value="malta">Malta</option>
+            <option value="mexico">Mexico</option>
+            <option value="morocco">Morocco</option>
+            <option value="mozambique">Mozambique</option>
+            <option value="myanmar">Myanmar</option>
+            <option value="namibia">Namibia</option>
+            <option value="nepal">Nepal</option>
+            <option value="netherlands">Netherlands</option>
+            <option value="new_zealand">New Zealand</option>
+            <option value="niger">Niger</option>
+            <option value="nigeria">Nigeria</option>
+            <option value="north_korea">North Korea</option>
+            <option value="norway">Norway</option>
+            <option value="oman">Oman</option>
+            <option value="pakistan">Pakistan</option>
+            <option value="palestine">Palestine</option>
+            <option value="philippines">Philippines</option>
+            <option value="poland">Poland</option>
+            <option value="portugal">Portugal</option>
+            <option value="qatar">Qatar</option>
+            <option value="romania">Romania</option>
+            <option value="russia">Russia</option>
+            <option value="south_africa">South Africa</option>
+            <option value="south_korea">South Korea</option>
+            <option value="spain">Spain</option>
+            <option value="united_kingdom">United Kingdom</option>
+            <option value="united_states">United States</option>
+            <!-- Add additional countries as needed -->
+          </select>
+        </div>
+
+        <button type="submit" class="primary-button">Add Education</button>
+      </form>
+    </div>
+
+    <div id="experience" class="form-section">
+      <h2>Experience</h2>
+      <div id="experience-list"></div>
+      <form id="experience-form">
+        <div class="form-group">
+          <label for="company">Company Name:</label>
+          <input type="text" id="company" name="company" placeholder="Enter company name">
+        </div>
+        <div class="form-group">
+          <label for="position">Position:</label>
+          <input type="text" id="position" name="position" placeholder="Enter position">
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" placeholder="Enter job description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="start_date">Start Date:</label>
+          <input type="date" id="start_date" name="start_date">
+        </div>
+        <div class="form-group">
+          <label for="end_date">End Date:</label>
+          <input type="date" id="end_date" name="end_date">
+        </div>
+        <button type="submit" class="primary-button">Add Experience</button>
+      </form>
+    </div>
+
+    <div id="certification" class="form-section">
+      <h2>Certification</h2>
+      <div id="certification-list"></div>
+      <form id="certification-form">
+        <div class="form-group">
+          <label for="cert_name">Certification Name:</label>
+          <input type="text" id="cert_name" name="cert_name" placeholder="Enter certification name">
+        </div>
+        <div class="form-group">
+          <label for="provider">Provider:</label>
+          <input type="text" id="provider" name="provider" placeholder="Enter provider name">
+        </div>
+        <div class="form-group">
+          <label for="course_link">Course Link:</label>
+          <input type="url" id="course_link" name="course_link" placeholder="Enter course link">
+        </div>
+        <div class="form-group">
+          <label for="duration_hours">Duration (hours):</label>
+          <input type="number" id="duration_hours" name="duration_hours" placeholder="Enter duration in hours">
+        </div>
+        <button type="submit" class="primary-button">Add Certification</button>
+      </form>
+    </div>
+
+    <div id="skill" class="form-section">
+      <h2>Skill</h2>
+      <div id="skill-list"></div>
+      <form id="skill-form">
+        <div class="form-group">
+          <label for="skill_name">Skill Name:</label>
+          <input type="text" id="skill_name" name="skill_name" placeholder="Enter skill name">
+        </div>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <input type="text" id="category" name="category" placeholder="Enter category">
+        </div>
+        <div class="form-group">
+          <label for="skill_level">Level:</label>
+          <input type="range" id="skill_level" name="skill_level" min="1" max="5" step="1" class="range-input">
+          <span class="range-value">3</span>
+        </div>
+        <button type="submit" class="primary-button">Add Skill</button>
+      </form>
+    </div>
+
+    <div class="bottom-buttons">
+      <button id="continue-chat" class="primary-button">Continue to Chat</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
