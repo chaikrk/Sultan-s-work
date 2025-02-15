@@ -1,5 +1,6 @@
-// Initialize select2 for the new dropdown menus
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", () => {
+  // Only run Select2 if jQuery exists and the #degree_search element is present
+  if (typeof $ !== 'undefined' && document.getElementById('degree_search')) {
     $('#degree_search').select2({
       placeholder: "Search for a degree...",
       allowClear: true
@@ -16,7 +17,8 @@ $(document).ready(function() {
       placeholder: "Search for a country...",
       allowClear: true
     });
-  });
+  }
+});
   
 async function loadData(section) {
     const list = document.getElementById(`${section}-list`);
